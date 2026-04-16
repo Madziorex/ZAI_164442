@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">{{ project.name }}</h2>
+
+            <div>
+                <a href="{% url 'project_edit' project.pk %}" class="btn btn-outline-primary btn-sm">
+                    Edytuj
+                </a>
+                <a href="{% url 'project_delete' project.pk %}" class="btn btn-outline-danger btn-sm">
+                    Usuń
+                </a>
+            </div>
+        </div>
+
+        <p class="text-muted">
+            {{ project.description|default:"Brak opisu" }}
+        </p>
+
+        <p class="small text-muted">
+            Utworzono: {{ project.created_at }}
+        </p>
+
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h4 class="mb-3">Zadania</h4>
+
+        {% if project.tasks.all %}
+            <ul class="list-group">
+                {% for task in project.tasks.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ task.title }}
+
+                        <a href="{% url 'task_detail' task.pk %}" class="btn btn-sm btn-outline-secondary">
+                            Szczegóły
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">
+                Brak zadań w tym projekcie.
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'project_list' %}" class="btn btn-secondary">
+        Powrót do listy
+    </a>
+</div>
+
+{% endblock %}

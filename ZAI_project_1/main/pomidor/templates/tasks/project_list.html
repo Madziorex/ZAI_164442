@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Projekty</h2>
+    <a href="{% url 'project_add' %}" class="btn btn-success">
+        Dodaj projekt
+    </a>
+</div>
+
+{% if projects %}
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ project.name }}
+                        </h5>
+
+                        <p class="card-text text-muted">
+                            {{ project.description|default:"Brak opisu" }}
+                        </p>
+                    </div>
+
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary btn-sm">
+                            Zobacz
+                        </a>
+
+                        <span class="text-muted small">
+                            {{ project.tasks.count }} zadań
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Brak projektów.
+    </div>
+{% endif %}
+
+{% endblock %}

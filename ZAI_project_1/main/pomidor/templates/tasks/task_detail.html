@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">{{ task.title }}</h2>
+
+            <div>
+                <a href="{% url 'task_edit' task.pk %}" class="btn btn-outline-primary btn-sm">
+                    Edytuj
+                </a>
+                <a href="{% url 'task_delete' task.pk %}" class="btn btn-outline-danger btn-sm">
+                    Usuń
+                </a>
+            </div>
+        </div>
+
+        <p class="text-muted">
+            {{ task.description|default:"Brak opisu" }}
+        </p>
+
+        <div class="row mt-3">
+
+            <div class="col-md-6">
+                <p><strong>Status:</strong>
+                    {% if task.status == "done" %}
+                        <span class="badge bg-success">Done</span>
+                    {% elif task.status == "doing" %}
+                        <span class="badge bg-warning text-dark">Doing</span>
+                    {% else %}
+                        <span class="badge bg-secondary">To do</span>
+                    {% endif %}
+                </p>
+
+                <p><strong>Projekt:</strong> {{ task.project.name }}</p>
+                <p><strong>Termin:</strong> {{ task.due_date|default:"brak" }}</p>
+                <p><strong>Utworzono:</strong> {{ task.created_at }}</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h4 class="mb-3">Tagi</h4>
+
+        {% if task.tags.all %}
+            {% for tag in task.tags.all %}
+                <span class="badge bg-secondary">{{ tag.name }}</span>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                Brak tagów
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'task_list' %}" class="btn btn-secondary">
+        Powrót do listy
+    </a>
+</div>
+
+{% endblock %}
