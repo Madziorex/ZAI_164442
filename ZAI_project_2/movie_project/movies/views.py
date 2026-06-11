@@ -5,7 +5,6 @@ from rest_framework import viewsets, filters
 from .models import Movie
 from .serializers import MovieSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import AllowAny
 from .services import fetch_movies_async, save_movies
 import asyncio
 
@@ -19,7 +18,6 @@ def import_movies(request):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
